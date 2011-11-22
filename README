@@ -1,0 +1,17 @@
+Vocab Builder Project
+=====================
+
+### Why?
+
+I am learning Spanish and trying to properly learn
+30 words a week or so. I wanted an application that
+would allow me to input the vocab myself so I can 
+select the words I am doing and also the ability to 
+organise by category. 
+
+So, I should be able to look at all words from 
+week X or all words from category Y.
+
+Then when I show the words I want to be able to hide
+one of the languages, show all, or accept input as 
+a test. This is the basic idea for now.
