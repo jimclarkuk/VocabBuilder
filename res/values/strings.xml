@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, VocabBuilderActivity!</string>
-    <string name="app_name">VocabBuilder</string>
+    <string name="app_name">Vocab Builder</string>
+
+    <string name="new_set">New Set</string>
+    <string name="new_category">New Category</string>
+    <string name="view_by_cat">View By Category</string>
+    <string name="view_by_set">View By Set</string>
 </resources>
