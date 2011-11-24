@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.steo.vocab.Category;
 import com.steo.vocab.WordMapping;
@@ -95,5 +96,34 @@ public class VocabDatabaseAdapter {
         }
 
         return cats;
+    }
+
+    public void debugDumpTables() {
+
+        String[] tables = {
+                VocabDatabaseHelper.WORDTBL_NAME,
+                VocabDatabaseHelper.CATEGORYTBL_NAME,
+                VocabDatabaseHelper.SETTBL_NAME };
+
+        for(String table : tables) {
+
+            Log.d(getClass().getSimpleName(), "Dumping [" + table + "]");
+
+            Cursor cs = mDatabase.rawQuery("SELECT * FROM " + table, null);
+            while(cs.moveToNext() ) {
+
+                int numcols = cs.getColumnCount();
+                String col = "";
+                for(int i = 0; i < numcols; i++) {
+                    col += "\t [" + cs.getString(i) + "] ";
+                }
+
+                Log.d(getClass().getSimpleName(), col);
+            }
+
+
+            cs.close();
+
+        }
     }
 }

@@ -29,11 +29,13 @@ public class HomePage extends Activity implements OnClickListener {
         mVocabDatabase = new VocabDatabaseAdapter(this);
         mVocabDatabase.open();
 
-         Button newCatBt = (Button) findViewById(R.id.newCat);
-         newCatBt.setOnClickListener(this);
+        Button newCatBt = (Button) findViewById(R.id.newCat);
+        newCatBt.setOnClickListener(this);
 
-         Button newSetBt = (Button) findViewById(R.id.newSet);
-         newSetBt.setOnClickListener(this);
+        Button newSetBt = (Button) findViewById(R.id.newSet);
+        newSetBt.setOnClickListener(this);
+
+        mVocabDatabase.debugDumpTables();
     }
 
     @Override
