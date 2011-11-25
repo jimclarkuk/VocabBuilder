@@ -29,27 +29,4 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_width="fill_parent" >
-
-        <Button
-            android:id="@+id/viewBySet"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/view_by_set" />
-
-        <Button
-            android:id="@+id/viewByCat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/view_by_cat" />
-
-    </LinearLayout>
-
 </RelativeLayout>
