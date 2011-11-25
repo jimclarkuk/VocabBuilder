@@ -2,14 +2,12 @@ package com.steo.vocab.db;
 
 import java.util.ArrayList;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.steo.vocab.Category;
 import com.steo.vocab.WordMapping;
 
 public class VocabDatabaseAdapter {
@@ -35,15 +33,18 @@ public class VocabDatabaseAdapter {
 
     public long addVocab(String nativeWord, String foreignWord) {
 
-        ContentValues values = new ContentValues();
-        values.put(VocabDatabaseHelper.WORDTBL_KEY_FOREIGN_WORD, foreignWord);
-        values.put(VocabDatabaseHelper.WORDTBL_KEY_NATIVE_WORD, nativeWord);
+        return 0;
+        //ContentValues values = new ContentValues();
+        //values.put(VocabDatabaseHelper.WORDTBL_KEY_FOREIGN_WORD, foreignWord);
+        //values.put(VocabDatabaseHelper.WORDTBL_KEY_NATIVE_WORD, nativeWord);
 
-        return mDatabase.insert(VocabDatabaseHelper.WORDTBL_NAME, null, values);
+        //return mDatabase.insert(VocabDatabaseHelper.WORDTBL_NAME, null, values);
     }
 
     public ArrayList<WordMapping> getVocab() {
 
+        return null;
+        /**
         Cursor cursor = mDatabase.query(VocabDatabaseHelper.WORDTBL_NAME,
                 new String[] { VocabDatabaseHelper.WORDTBL_KEY_ID,
                     VocabDatabaseHelper.WORDTBL_KEY_NATIVE_WORD,
@@ -65,8 +66,10 @@ public class VocabDatabaseAdapter {
         }
 
         return wordMappings;
+        */
     }
 
+    /*
     public long addCategory(String category) {
 
         ContentValues values = new ContentValues();
@@ -74,36 +77,19 @@ public class VocabDatabaseAdapter {
 
         return mDatabase.insert(VocabDatabaseHelper.CATEGORYTBL_NAME, null, values);
     }
-
-    public ArrayList<Category> getCategories() {
-
-        Cursor cursor = mDatabase.query(VocabDatabaseHelper.CATEGORYTBL_NAME,
-                new String[] { VocabDatabaseHelper.CATEGORYTBL_KEY_ID,
-                    VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY },
-                null, null, null, null, null);
-
-        ArrayList<Category> cats = new ArrayList<Category>();
-
-        int idCol = cursor.getColumnIndex(VocabDatabaseHelper.CATEGORYTBL_KEY_ID);
-        int categoryCol = cursor.getColumnIndex(VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY);
-
-        while(cursor.moveToNext()) {
-
-            Category cat = new Category(cursor.getString(categoryCol),
-                    cursor.getInt(idCol));
-
-            cats.add(cat);
-        }
-
-        return cats;
-    }
+    */
 
     public void debugDumpTables() {
 
         String[] tables = {
                 VocabDatabaseHelper.WORDTBL_NAME,
                 VocabDatabaseHelper.CATEGORYTBL_NAME,
-                VocabDatabaseHelper.SETTBL_NAME };
+                VocabDatabaseHelper.SETTBL_NAME,
+                VocabDatabaseHelper.LANGTBL_NAME,
+                VocabDatabaseHelper.WORDTBL_NAME,
+                VocabDatabaseHelper.WORDCAT_TBL_NAME,
+                VocabDatabaseHelper.WORDSET_TBL_NAME,
+                VocabDatabaseHelper.WORDTRANSLATION_TBL_NAME };
 
         for(String table : tables) {
 

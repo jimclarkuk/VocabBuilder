@@ -7,8 +7,19 @@
     <string name="new_category">New Category</string>
     <string name="view_by_cat">View By Category</string>
     <string name="view_by_set">View By Set</string>
-    
+
     <string name="enter_set_name">Enter Set Name:</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+
+    <string-array name="default_categories">
+        <item>Home</item>
+        <item>Food</item>
+        <item>Sport</item>
+    </string-array>
+    
+    <string-array name="default_sets">
+        <item>Example Set 1</item>
+        <item>Example Set 2</item>
+    </string-array>
 </resources>
