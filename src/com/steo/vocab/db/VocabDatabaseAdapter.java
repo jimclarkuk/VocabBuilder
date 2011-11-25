@@ -8,8 +8,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.steo.vocab.WordMapping;
-
 public class VocabDatabaseAdapter {
 
     private final Context mContext;
@@ -41,10 +39,28 @@ public class VocabDatabaseAdapter {
         //return mDatabase.insert(VocabDatabaseHelper.WORDTBL_NAME, null, values);
     }
 
+    public ArrayList<String> getSets() {
+
+        Cursor cursor = mDatabase.query(VocabDatabaseHelper.SETTBL_NAME,
+                new String[] { VocabDatabaseHelper.SETTBL_KEY_NAME },
+                null, null, null, null, null);
+
+        int setCol = cursor.getColumnIndex(VocabDatabaseHelper.SETTBL_KEY_NAME);
+
+        ArrayList<String> sets = new ArrayList<String>();
+
+        while(cursor.moveToNext()) {
+            sets.add(cursor.getString(setCol));
+        }
+
+        return sets;
+    }
+
+    /**
     public ArrayList<WordMapping> getVocab() {
 
         return null;
-        /**
+
         Cursor cursor = mDatabase.query(VocabDatabaseHelper.WORDTBL_NAME,
                 new String[] { VocabDatabaseHelper.WORDTBL_KEY_ID,
                     VocabDatabaseHelper.WORDTBL_KEY_NATIVE_WORD,
@@ -66,9 +82,9 @@ public class VocabDatabaseAdapter {
         }
 
         return wordMappings;
-        */
-    }
 
+    }
+*/
     /*
     public long addCategory(String category) {
 

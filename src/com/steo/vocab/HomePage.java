@@ -7,7 +7,9 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.steo.vocab.db.VocabDatabaseAdapter;
 
@@ -15,12 +17,15 @@ import com.steo.vocab.db.VocabDatabaseAdapter;
 public class HomePage extends Activity implements OnClickListener {
 
     private VocabDatabaseAdapter mVocabDatabase;
+    private ListView mListView;
+    private ArrayAdapter<String> mAdapter; //TODO: Will need custom adapter for later funkification
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
+        //This is to add elephant icon to title bar
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.main);
         setFeatureDrawableResource(Window.FEATURE_LEFT_ICON,
@@ -28,6 +33,11 @@ public class HomePage extends Activity implements OnClickListener {
 
         mVocabDatabase = new VocabDatabaseAdapter(this);
         mVocabDatabase.open();
+
+        mListView = (ListView) findViewById(R.id.homepageListView);
+        mAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mVocabDatabase.getSets());
+        mListView.setAdapter(mAdapter);
 
         Button newCatBt = (Button) findViewById(R.id.newCat);
         newCatBt.setOnClickListener(this);
