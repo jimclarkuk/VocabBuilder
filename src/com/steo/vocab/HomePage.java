@@ -1,17 +1,18 @@
 package com.steo.vocab;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 
 import com.steo.vocab.db.VocabDatabaseAdapter;
 
-public class HomePage extends Activity {
+
+public class HomePage extends Activity implements OnClickListener {
 
     private VocabDatabaseAdapter mVocabDatabase;
 
@@ -28,12 +29,11 @@ public class HomePage extends Activity {
         mVocabDatabase = new VocabDatabaseAdapter(this);
         mVocabDatabase.open();
 
-        ArrayList<Category> cats = mVocabDatabase.getCategories();
-        for(Category c : cats) {
-            Log.w("STEO", "Cat: " + c.category);
-        }
+         Button newCatBt = (Button) findViewById(R.id.newCat);
+         newCatBt.setOnClickListener(this);
 
-        mVocabDatabase.getVocab();
+         Button newSetBt = (Button) findViewById(R.id.newSet);
+         newSetBt.setOnClickListener(this);
     }
 
     @Override
@@ -46,5 +46,16 @@ public class HomePage extends Activity {
     @Override
     public void onDestroy() {
         mVocabDatabase.close();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId() == R.id.newSet) {
+            new NewSetDialog(this).show();
+        }
+        else if(v.getId() == R.id.newCat) {
+
+        }
     }
 }

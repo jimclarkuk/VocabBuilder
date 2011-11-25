@@ -7,4 +7,8 @@
     <string name="new_category">New Category</string>
     <string name="view_by_cat">View By Category</string>
     <string name="view_by_set">View By Set</string>
+    
+    <string name="enter_set_name">Enter Set Name:</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

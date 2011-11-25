@@ -15,11 +15,16 @@ public class VocabDatabaseHelper extends SQLiteOpenHelper {
     public static String WORDTBL_KEY_NATIVE_WORD = "native_word";
     public static String WORDTBL_KEY_FOREIGN_WORD = "foreign_word";
     public static String WORDTBL_KEY_CATEGORY = "category";
+    public static String WORDTBL_KEY_SET = "word_set";
     public static String WORDTBL_KEY_ID = "_id";
 
     public static String CATEGORYTBL_NAME = "tbl_categories";
     public static String CATEGORYTBL_KEY_CATEGORY = "category";
     public static String CATEGORYTBL_KEY_ID = "_id";
+
+    public static String SETTBL_NAME = "tbl_sets";
+    public static String SETTBL_KEY_ID = "_id";
+    public static String SETTBL_KEY_NAME = "set_name";
 
     private final String[] mDefaultCategories = { "Home", "Food", "Sport" };
 
@@ -28,14 +33,20 @@ public class VocabDatabaseHelper extends SQLiteOpenHelper {
             "(" + CATEGORYTBL_KEY_ID + " integer primary key autoincrement, " +
             CATEGORYTBL_KEY_CATEGORY + " text not null); ";
 
+    private static final String SET_TABLE_CREATE =
+            "create table " + SETTBL_NAME +
+            " (" + SETTBL_KEY_ID + " integer primary key autoincrement, " +
+            SETTBL_KEY_NAME + " text not null);";
+
     private static final String WORD_TABLE_CREATE =
-            "create table " + WORDTBL_NAME +
-            "(" + WORDTBL_KEY_ID +" integer primary key autoincrement, " +
+            "create table " + WORDTBL_NAME + "(" +
+            WORDTBL_KEY_ID +" integer primary key autoincrement, " +
             WORDTBL_KEY_NATIVE_WORD + " text not null, " +
             WORDTBL_KEY_FOREIGN_WORD + " text not null, " +
-            WORDTBL_KEY_CATEGORY + " integer, FOREIGN KEY (" + CATEGORYTBL_KEY_CATEGORY +
-            ") REFERENCES " + CATEGORYTBL_NAME +
-            ");";
+            WORDTBL_KEY_CATEGORY + " integer, " +
+            WORDTBL_KEY_SET + " integer, " +
+            "FOREIGN KEY (" + WORDTBL_KEY_CATEGORY + ") REFERENCES " + CATEGORYTBL_NAME + "(" + CATEGORYTBL_KEY_ID + "), " +
+            "FOREIGN KEY (" + WORDTBL_KEY_SET + ") REFERENCES " + SETTBL_NAME + "(" + SETTBL_KEY_ID + "));";
 
     public VocabDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -43,7 +54,9 @@ public class VocabDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
+
         database.execSQL(CATEGORY_TABLE_CREATE);
+        database.execSQL(SET_TABLE_CREATE);
         database.execSQL(WORD_TABLE_CREATE);
 
         for(String s : mDefaultCategories) {
