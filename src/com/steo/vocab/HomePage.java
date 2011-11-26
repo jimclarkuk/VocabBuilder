@@ -1,5 +1,7 @@
 package com.steo.vocab;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -36,8 +38,10 @@ public class HomePage extends Activity implements OnClickListener {
 
         mListView = (ListView) findViewById(R.id.homepageListView);
         mAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mVocabDatabase.getSets());
+                android.R.layout.simple_list_item_1);
         mListView.setAdapter(mAdapter);
+
+        showSetList();
 
         Button newCatBt = (Button) findViewById(R.id.newCat);
         newCatBt.setOnClickListener(this);
@@ -46,6 +50,30 @@ public class HomePage extends Activity implements OnClickListener {
         newSetBt.setOnClickListener(this);
 
         mVocabDatabase.debugDumpTables();
+    }
+
+    @SuppressWarnings("unused")
+    private void showCategoryList() {
+
+        ArrayList<String> sets = mVocabDatabase.getCategories();
+        mAdapter.clear();
+        for(String set : sets ) {
+            mAdapter.add(set);
+        }
+
+        mAdapter.notifyDataSetChanged();
+
+    }
+
+    private void showSetList() {
+
+        ArrayList<String> sets = mVocabDatabase.getSets();
+        mAdapter.clear();
+        for(String set : sets ) {
+            mAdapter.add(set);
+        }
+
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -56,6 +56,23 @@ public class VocabDatabaseAdapter {
         return sets;
     }
 
+    public ArrayList<String> getCategories() {
+
+        Cursor cursor = mDatabase.query(VocabDatabaseHelper.CATEGORYTBL_NAME,
+                new String[] { VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY },
+                null, null, null, null, null);
+
+        int catCol = cursor.getColumnIndex(VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY);
+
+        ArrayList<String> cats = new ArrayList<String>();
+
+        while(cursor.moveToNext()) {
+            cats.add(cursor.getString(catCol));
+        }
+
+        return cats;
+    }
+
     /**
     public ArrayList<WordMapping> getVocab() {
 
