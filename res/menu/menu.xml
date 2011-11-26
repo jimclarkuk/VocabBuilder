@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     
     <item 
-        android:id="@+id/option_logout"
+        android:id="@+id/optionViewSet"
         android:title="@string/view_by_set"/>
 
     <item 
-        android:id="@+id/option_logout"
+        android:id="@+id/optionViewCat"
         android:title="@string/view_by_cat"/>
 </menu>

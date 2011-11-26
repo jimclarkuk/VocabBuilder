@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -15,12 +16,13 @@ import android.widget.ListView;
 
 import com.steo.vocab.db.VocabDatabaseAdapter;
 
-
 public class HomePage extends Activity implements OnClickListener {
 
     private VocabDatabaseAdapter mVocabDatabase;
     private ListView mListView;
-    private ArrayAdapter<String> mAdapter; //TODO: Will need custom adapter for later funkification
+
+    //TODO: Will need custom adapter for later funkification
+    private ArrayAdapter<String> mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,6 @@ public class HomePage extends Activity implements OnClickListener {
         mVocabDatabase.debugDumpTables();
     }
 
-    @SuppressWarnings("unused")
     private void showCategoryList() {
 
         ArrayList<String> sets = mVocabDatabase.getCategories();
@@ -81,6 +82,21 @@ public class HomePage extends Activity implements OnClickListener {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+        case R.id.optionViewCat:
+            showCategoryList();
+            return true;
+        case R.id.optionViewSet:
+            showSetList();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
