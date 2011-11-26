@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.steo.vocab.db.IDItem;
 import com.steo.vocab.db.VocabDatabaseAdapter;
 
 public class HomePage extends Activity implements OnClickListener {
@@ -71,12 +72,15 @@ public class HomePage extends Activity implements OnClickListener {
 
         switch(mMode) {
             case SET_MODE:
-                mListData.addAll(mVocabDatabase.getSets());
+                //Getting these IDItem lists so we will be able to have the category
+                //or set ID to refer with later. Only useful when we remove ArrayAdapter
+                //and replace with custom one to give us a meaningful ID
+                mListData.addAll(IDItem.getItems(mVocabDatabase.getSets()));
                 mNewButton.setText(R.string.new_set);
                 break;
 
             case CAT_MODE:
-                mListData.addAll(mVocabDatabase.getCategories());
+                mListData.addAll(IDItem.getItems(mVocabDatabase.getCategories()));
                 mNewButton.setText(R.string.new_category);
                 break;
             default:

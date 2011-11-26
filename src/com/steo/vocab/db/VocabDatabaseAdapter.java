@@ -1,6 +1,7 @@
 package com.steo.vocab.db;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -40,18 +41,22 @@ public class VocabDatabaseAdapter {
         //return mDatabase.insert(VocabDatabaseHelper.WORDTBL_NAME, null, values);
     }
 
-    public ArrayList<String> getSets() {
+    public  List<IDItem<String>> getSets() {
 
         Cursor cursor = mDatabase.query(VocabDatabaseHelper.SETTBL_NAME,
-                new String[] { VocabDatabaseHelper.SETTBL_KEY_NAME },
+                new String[] {
+                    VocabDatabaseHelper.SETTBL_KEY_ID,
+                    VocabDatabaseHelper.SETTBL_KEY_NAME },
                 null, null, null, null, null);
 
+        int idCol = cursor.getColumnIndex(VocabDatabaseHelper.SETTBL_KEY_ID);
         int setCol = cursor.getColumnIndex(VocabDatabaseHelper.SETTBL_KEY_NAME);
 
-        ArrayList<String> sets = new ArrayList<String>();
+        ArrayList<IDItem<String>> sets = new ArrayList<IDItem<String>>();
 
         while(cursor.moveToNext()) {
-            sets.add(cursor.getString(setCol));
+            sets.add(new IDItem<String>(cursor.getInt(idCol),
+                    cursor.getString(setCol)));
         }
 
         return sets;
@@ -65,18 +70,22 @@ public class VocabDatabaseAdapter {
         return mDatabase.insert(VocabDatabaseHelper.SETTBL_NAME, null, values);
     }
 
-    public ArrayList<String> getCategories() {
+    public List<IDItem<String>> getCategories() {
 
         Cursor cursor = mDatabase.query(VocabDatabaseHelper.CATEGORYTBL_NAME,
-                new String[] { VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY },
+                new String[] {
+                    VocabDatabaseHelper.CATEGORYTBL_KEY_ID,
+                    VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY },
                 null, null, null, null, null);
 
+        int idCol = cursor.getColumnIndex(VocabDatabaseHelper.CATEGORYTBL_KEY_ID);
         int catCol = cursor.getColumnIndex(VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY);
 
-        ArrayList<String> cats = new ArrayList<String>();
+        ArrayList<IDItem<String>> cats = new ArrayList<IDItem<String>>();
 
         while(cursor.moveToNext()) {
-            cats.add(cursor.getString(catCol));
+            cats.add(new IDItem<String>(cursor.getInt(idCol),
+                    cursor.getString(catCol)));
         }
 
         return cats;
@@ -147,10 +156,7 @@ public class VocabDatabaseAdapter {
 
                 Log.d(getClass().getSimpleName(), col);
             }
-
-
             cs.close();
-
         }
     }
 }
