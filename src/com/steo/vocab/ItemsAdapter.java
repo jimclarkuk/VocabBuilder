@@ -29,7 +29,7 @@ public class ItemsAdapter extends ArrayAdapter<IDItem<String>>{
         if(convertView == null) {
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(android.R.layout.simple_list_item_1,
+            convertView = inflater.inflate(R.layout.listitem,
                     null);
         }
 
