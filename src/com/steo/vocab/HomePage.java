@@ -1,6 +1,7 @@
 package com.steo.vocab;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 import android.app.Activity;
@@ -14,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -28,9 +28,8 @@ public class HomePage extends Activity implements OnClickListener {
     private VocabDatabaseAdapter mVocabDatabase;
     private ListView mListView;
 
-    //TODO: Will need custom adapter for later funkification
-    private ArrayAdapter<String> mAdapter;
-    private final ArrayList<String> mListData = new ArrayList<String>();
+    private ItemsAdapter mAdapter;
+    private final List<IDItem<String>> mListData = new ArrayList<IDItem<String>>();
 
     static final private int SET_MODE = 0;
     static final private int CAT_MODE = 1;
@@ -54,7 +53,7 @@ public class HomePage extends Activity implements OnClickListener {
         mVocabDatabase.open();
 
         mListView = (ListView) findViewById(R.id.homepageListView);
-        mAdapter = new ArrayAdapter<String>(this,
+        mAdapter = new ItemsAdapter(this,
                 android.R.layout.simple_list_item_1, mListData);
         mListView.setAdapter(mAdapter);
 
@@ -72,15 +71,12 @@ public class HomePage extends Activity implements OnClickListener {
 
         switch(mMode) {
             case SET_MODE:
-                //Getting these IDItem lists so we will be able to have the category
-                //or set ID to refer with later. Only useful when we remove ArrayAdapter
-                //and replace with custom one to give us a meaningful ID
-                mListData.addAll(IDItem.getItems(mVocabDatabase.getSets()));
+                mListData.addAll(mVocabDatabase.getSets());
                 mNewButton.setText(R.string.new_set);
                 break;
 
             case CAT_MODE:
-                mListData.addAll(IDItem.getItems(mVocabDatabase.getCategories()));
+                mListData.addAll(mVocabDatabase.getCategories());
                 mNewButton.setText(R.string.new_category);
                 break;
             default:
