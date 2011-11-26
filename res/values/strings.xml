@@ -8,9 +8,11 @@
     <string name="view_by_cat">View By Category</string>
     <string name="view_by_set">View By Set</string>
 
+    <string name="new_set_dlg_hdr">New Set:</string>
     <string name="enter_set_name">Enter Set Name:</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
+    
+    <string name="new_cat_dlg_hdr">New Category:</string>
+    <string name="enter_cat_name">Category:</string>
 
     <string-array name="default_categories">
         <item>Home</item>

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import junit.framework.Assert;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,7 +16,9 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.steo.vocab.db.VocabDatabaseAdapter;
 
@@ -109,8 +114,47 @@ public class HomePage extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.newButton && mMode == SET_MODE) {
-            new NewSetDialog(this).show();
+        LayoutInflater factory = LayoutInflater.from(this);
+        View dialogView = factory.inflate(R.layout.edit_text_dlg, null);
+        TextView label = (TextView)dialogView.findViewById(R.id.dlgLabel);
+        final EditText editText =
+                (EditText)dialogView.findViewById(R.id.dlgEditText);
+
+        int headerId = 0;
+        DialogInterface.OnClickListener listener = null;
+
+        switch(mMode) {
+        case SET_MODE:
+            headerId = R.string.new_set_dlg_hdr;
+            label.setText(R.string.enter_set_name);
+            listener = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mVocabDatabase.addSet(editText.getText().toString());
+                    populateUI();
+                }
+            };
+
+            break;
+        case CAT_MODE:
+            headerId = R.string.new_cat_dlg_hdr;
+            label.setText(R.string.enter_cat_name);
+            listener = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mVocabDatabase.addCategory(editText.getText().toString());
+                    populateUI();
+                }
+            };
         }
+
+        new AlertDialog.Builder(this)
+            .setTitle(headerId)
+            .setView(dialogView)
+            .setPositiveButton(android.R.string.ok, listener)
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
     }
 }

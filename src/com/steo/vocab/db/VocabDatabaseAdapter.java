@@ -2,6 +2,7 @@ package com.steo.vocab.db;
 
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -56,6 +57,14 @@ public class VocabDatabaseAdapter {
         return sets;
     }
 
+    public long addSet(String set) {
+
+        ContentValues values = new ContentValues();
+        values.put(VocabDatabaseHelper.SETTBL_KEY_NAME, set);
+
+        return mDatabase.insert(VocabDatabaseHelper.SETTBL_NAME, null, values);
+    }
+
     public ArrayList<String> getCategories() {
 
         Cursor cursor = mDatabase.query(VocabDatabaseHelper.CATEGORYTBL_NAME,
@@ -71,6 +80,14 @@ public class VocabDatabaseAdapter {
         }
 
         return cats;
+    }
+
+    public long addCategory(String category) {
+
+        ContentValues values = new ContentValues();
+        values.put(VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY, category);
+
+        return mDatabase.insert(VocabDatabaseHelper.CATEGORYTBL_NAME, null, values);
     }
 
     /**
@@ -102,15 +119,6 @@ public class VocabDatabaseAdapter {
 
     }
 */
-    /*
-    public long addCategory(String category) {
-
-        ContentValues values = new ContentValues();
-        values.put(VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY, category);
-
-        return mDatabase.insert(VocabDatabaseHelper.CATEGORYTBL_NAME, null, values);
-    }
-    */
 
     public void debugDumpTables() {
 
