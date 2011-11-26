@@ -62,12 +62,22 @@ public class VocabDatabaseAdapter {
         return sets;
     }
 
-    public long addSet(String set) {
+    public boolean addSet(String set) {
 
         ContentValues values = new ContentValues();
         values.put(VocabDatabaseHelper.SETTBL_KEY_NAME, set);
 
-        return mDatabase.insert(VocabDatabaseHelper.SETTBL_NAME, null, values);
+        return mDatabase.insert(VocabDatabaseHelper.SETTBL_NAME, null, values) != -1;
+    }
+
+    public boolean deleteSet(IDItem<String> idItem) {
+
+        Log.d(getClass().getSimpleName(), "Deleting Set Item ID [" +
+                idItem.id + "] and name [" + idItem.item + "]");
+
+        return mDatabase.delete(VocabDatabaseHelper.SETTBL_NAME,
+                VocabDatabaseHelper.SETTBL_KEY_ID + "=?",
+                new String[] { Integer.toString(idItem.id) }) > 0;
     }
 
     public List<IDItem<String>> getCategories() {
@@ -91,12 +101,23 @@ public class VocabDatabaseAdapter {
         return cats;
     }
 
-    public long addCategory(String category) {
+    public boolean addCategory(String category) {
 
         ContentValues values = new ContentValues();
         values.put(VocabDatabaseHelper.CATEGORYTBL_KEY_CATEGORY, category);
 
-        return mDatabase.insert(VocabDatabaseHelper.CATEGORYTBL_NAME, null, values);
+        return mDatabase.insert(VocabDatabaseHelper.CATEGORYTBL_NAME,
+                null, values) > 0;
+    }
+
+    public boolean deleteCategory(IDItem<String> idItem) {
+
+        Log.d(getClass().getSimpleName(), "Deleting Category Item ID [" +
+                idItem.id + "] and name [" + idItem.item + "]");
+
+        return mDatabase.delete(VocabDatabaseHelper.CATEGORYTBL_NAME,
+                VocabDatabaseHelper.CATEGORYTBL_KEY_ID + "=?",
+                new String[] { Integer.toString(idItem.id) }) > 0;
     }
 
     /**

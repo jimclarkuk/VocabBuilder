@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,10 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.steo.vocab.db.IDItem;
 import com.steo.vocab.db.VocabDatabaseAdapter;
@@ -38,6 +42,8 @@ public class HomePage extends Activity implements OnClickListener {
 
     private Button mNewButton;
 
+    private static final int CONTEXT_MENU_DELETE_POS = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -56,6 +62,7 @@ public class HomePage extends Activity implements OnClickListener {
         mAdapter = new ItemsAdapter(this,
                 android.R.layout.simple_list_item_1, mListData);
         mListView.setAdapter(mAdapter);
+        registerForContextMenu(mListView);
 
         mNewButton = (Button) findViewById(R.id.newButton);
         mNewButton.setOnClickListener(this);
@@ -156,5 +163,49 @@ public class HomePage extends Activity implements OnClickListener {
             .setPositiveButton(android.R.string.ok, listener)
             .setNegativeButton(android.R.string.cancel, null)
             .show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+            ContextMenuInfo menuInfo) {
+
+        if (v.getId()==R.id.homepageListView) {
+
+            AdapterView.AdapterContextMenuInfo info =
+                    (AdapterView.AdapterContextMenuInfo)menuInfo;
+
+            menu.setHeaderTitle(mListData.get(info.position).item);
+            menu.add(Menu.NONE, CONTEXT_MENU_DELETE_POS, 0, R.string.delete);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        int menuItemIndex = item.getItemId();
+        switch(menuItemIndex) {
+            case CONTEXT_MENU_DELETE_POS:
+
+                int deleteToastId = 0;
+                if( (mMode == CAT_MODE) ?
+                        mVocabDatabase.deleteCategory(mListData.get(info.position)) :
+                        mVocabDatabase.deleteSet(mListData.get(info.position))) {
+                    deleteToastId = R.string.delete_successful;
+
+                    populateUI();
+                }
+                else {
+                    deleteToastId = R.string.delete_failed;
+                }
+
+                Toast.makeText(this, deleteToastId, Toast.LENGTH_SHORT).show();
+
+                break;
+        }
+
+        return true;
     }
 }

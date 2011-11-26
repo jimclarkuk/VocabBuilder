@@ -10,7 +10,10 @@
 
     <string name="new_set_dlg_hdr">New Set:</string>
     <string name="enter_set_name">Enter Set Name:</string>
-    
+    <string name="delete">Delete</string>
+    <string name="delete_successful">Deleting item was successful you cunt</string>
+    <string name="delete_failed">Deleting item failed you cunt</string>
+        
     <string name="new_cat_dlg_hdr">New Category:</string>
     <string name="enter_cat_name">Category:</string>
 
