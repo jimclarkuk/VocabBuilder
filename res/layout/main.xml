@@ -21,23 +21,12 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal" >
 
-        <!-- Having view by set and view by category options in the menu means
-             having both these buttons on the one page doesn't really make sense
-             Probably best to have "New Set" button when viewing by set and vice
-             versa with category -->
         <Button
-            android:id="@+id/newSet"
+            android:id="@+id/newButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/new_set" />
-
-        <Button
-            android:id="@+id/newCat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/new_category" />
 
     </LinearLayout>
 

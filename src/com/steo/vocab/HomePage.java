@@ -2,6 +2,7 @@ package com.steo.vocab;
 
 import java.util.ArrayList;
 
+import junit.framework.Assert;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,6 +25,13 @@ public class HomePage extends Activity implements OnClickListener {
     //TODO: Will need custom adapter for later funkification
     private ArrayAdapter<String> mAdapter;
 
+    static final private int SET_MODE = 0;
+    static final private int CAT_MODE = 1;
+
+    private int mMode = SET_MODE;
+
+    private Button mNewButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -43,35 +51,35 @@ public class HomePage extends Activity implements OnClickListener {
                 android.R.layout.simple_list_item_1);
         mListView.setAdapter(mAdapter);
 
-        showSetList();
+        mNewButton = (Button) findViewById(R.id.newButton);
+        mNewButton.setOnClickListener(this);
 
-        Button newCatBt = (Button) findViewById(R.id.newCat);
-        newCatBt.setOnClickListener(this);
-
-        Button newSetBt = (Button) findViewById(R.id.newSet);
-        newSetBt.setOnClickListener(this);
+        populateUI();
 
         mVocabDatabase.debugDumpTables();
     }
 
-    private void showCategoryList() {
+    private void populateUI() {
 
-        ArrayList<String> sets = mVocabDatabase.getCategories();
         mAdapter.clear();
-        for(String set : sets ) {
-            mAdapter.add(set);
+        ArrayList<String> data = null;
+
+        switch(mMode) {
+            case SET_MODE:
+                data = mVocabDatabase.getSets();
+                mNewButton.setText(R.string.new_set);
+                break;
+
+            case CAT_MODE:
+                data = mVocabDatabase.getCategories();
+                mNewButton.setText(R.string.new_category);
+                break;
+            default:
+                Assert.assertTrue("Things got fucked up", false);
         }
 
-        mAdapter.notifyDataSetChanged();
-
-    }
-
-    private void showSetList() {
-
-        ArrayList<String> sets = mVocabDatabase.getSets();
-        mAdapter.clear();
-        for(String set : sets ) {
-            mAdapter.add(set);
+        for(String s : data ) {
+            mAdapter.add(s);
         }
 
         mAdapter.notifyDataSetChanged();
@@ -88,15 +96,13 @@ public class HomePage extends Activity implements OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-        case R.id.optionViewCat:
-            showCategoryList();
-            return true;
-        case R.id.optionViewSet:
-            showSetList();
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+            case R.id.optionViewCat: mMode = CAT_MODE; break;
+            case R.id.optionViewSet: mMode = SET_MODE; break;
+            default: return super.onOptionsItemSelected(item);
         }
+
+        populateUI();
+        return true;
     }
 
     @Override
@@ -107,11 +113,8 @@ public class HomePage extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.newSet) {
+        if(v.getId() == R.id.newButton && mMode == SET_MODE) {
             new NewSetDialog(this).show();
-        }
-        else if(v.getId() == R.id.newCat) {
-
         }
     }
 }
