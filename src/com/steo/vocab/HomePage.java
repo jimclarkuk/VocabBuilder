@@ -24,6 +24,7 @@ public class HomePage extends Activity implements OnClickListener {
 
     //TODO: Will need custom adapter for later funkification
     private ArrayAdapter<String> mAdapter;
+    private final ArrayList<String> mListData = new ArrayList<String>();
 
     static final private int SET_MODE = 0;
     static final private int CAT_MODE = 1;
@@ -48,7 +49,7 @@ public class HomePage extends Activity implements OnClickListener {
 
         mListView = (ListView) findViewById(R.id.homepageListView);
         mAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1);
+                android.R.layout.simple_list_item_1, mListData);
         mListView.setAdapter(mAdapter);
 
         mNewButton = (Button) findViewById(R.id.newButton);
@@ -61,25 +62,20 @@ public class HomePage extends Activity implements OnClickListener {
 
     private void populateUI() {
 
-        mAdapter.clear();
-        ArrayList<String> data = null;
+        mListData.clear();
 
         switch(mMode) {
             case SET_MODE:
-                data = mVocabDatabase.getSets();
+                mListData.addAll(mVocabDatabase.getSets());
                 mNewButton.setText(R.string.new_set);
                 break;
 
             case CAT_MODE:
-                data = mVocabDatabase.getCategories();
+                mListData.addAll(mVocabDatabase.getCategories());
                 mNewButton.setText(R.string.new_category);
                 break;
             default:
                 Assert.assertTrue("Things got fucked up", false);
-        }
-
-        for(String s : data ) {
-            mAdapter.add(s);
         }
 
         mAdapter.notifyDataSetChanged();
